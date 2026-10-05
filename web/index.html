@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AI Image Check</title>
+  <meta name="description" content="Stima se un'immagine è stata generata con AI. Un indizio, non una prova.">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main>
+    <header>
+      <p class="kicker">Strumento</p>
+      <h1>AI Image Check</h1>
+      <p class="lead">Carica un'immagine e ottieni un indizio su una possibile origine AI. Non è un verdetto: è una stima con un margine di errore.</p>
+    </header>
+
+    <div id="banner" class="banner" hidden></div>
+
+    <section id="drop" class="drop" tabindex="0" role="button" aria-label="Carica un'immagine">
+      <input id="file" type="file" accept="image/jpeg,image/png,image/webp" hidden>
+      <div id="dropEmpty">
+        <p class="drop-title">Trascina qui un'immagine</p>
+        <p class="drop-sub">oppure tocca per scegliere un file. JPG, PNG o WebP, fino a 25 MB.</p>
+      </div>
+      <figure id="preview" hidden>
+        <img id="previewImg" alt="Anteprima dell'immagine caricata">
+        <figcaption id="previewName"></figcaption>
+      </figure>
+    </section>
+
+    <div class="actions">
+      <button id="analyze" type="button" disabled>Analizza</button>
+      <button id="reset" type="button" class="ghost" hidden>Cambia immagine</button>
+    </div>
+
+    <p class="privacy">Privacy: i metadati vengono letti nel tuo browser. Se serve l'analisi visiva, una versione ridotta dell'immagine viene inviata a un servizio esterno (Sightengine). Le immagini non vengono salvate: conserviamo solo l'impronta del file (hash) e il risultato.</p>
+
+    <p id="status" class="status" role="status" aria-live="polite" hidden></p>
+
+    <section id="result" class="result" hidden>
+      <div class="notice"><strong>Indizio, non prova.</strong> Nessun sistema di rilevamento è affidabile al 100%: foto vere possono risultare sospette e immagini AI possono passare inosservate.</div>
+      <div class="tabs" role="tablist">
+        <button role="tab" id="tab-meta" aria-selected="true" aria-controls="panel-meta">Metadati</button>
+        <button role="tab" id="tab-visual" aria-selected="false" aria-controls="panel-visual">Analisi visiva</button>
+      </div>
+      <div id="panel-meta" role="tabpanel" aria-labelledby="tab-meta"></div>
+      <div id="panel-visual" role="tabpanel" aria-labelledby="tab-visual" hidden></div>
+    </section>
+
+    <footer>
+      <p>Lettura metadati con <a href="https://github.com/contentauth/c2pa-js">c2pa-js</a> ed <a href="https://github.com/MikeKovarik/exifr">exifr</a>. Analisi visiva con <a href="https://sightengine.com/docs/ai-generated-image-detection">Sightengine</a>.</p>
+    </footer>
+  </main>
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>
