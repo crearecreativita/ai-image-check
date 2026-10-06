@@ -28,6 +28,12 @@ window.addEventListener('message', function (e) {
 </script>
 ```
 
+## Larghezza a 1280 px
+Il tool nell'iframe riempie tutta la larghezza che gli dai, quindi la misura si imposta in Elementor, non nel codice:
+1. Apri la pagina duplicata in Elementor e seleziona il contenitore che racchiude il widget HTML dell'iframe (nel QR è quello con "Larghezza contenuto" a 1024 px).
+2. Layout > Larghezza contenuto > Boxed > `1280` px.
+3. Controlla anche il contenitore esterno: nel QR ha 20 px di padding laterale, lascialo così per il mobile.
+
 ## FAQ (accordion) — titolo sezione: `Domande frequenti`
 
 1. **Come capisco se un'immagine è stata generata con l'AI?**
