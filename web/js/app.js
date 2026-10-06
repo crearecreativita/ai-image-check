@@ -245,7 +245,7 @@ checkBudget();
 // ospitante, e comunica l'altezza al genitore per evitare la barra di scorrimento interna.
 if (window.parent !== window) {
   if (new URLSearchParams(location.search).has("embed")) document.documentElement.classList.add("embed");
-  const sendHeight = () => window.parent.postMessage({ type: "aicheck-height", height: document.documentElement.scrollHeight }, "*");
+  const sendHeight = () => window.parent.postMessage({ type: "aicheck-height", height: Math.ceil(document.body.getBoundingClientRect().height) }, "*");
   new ResizeObserver(sendHeight).observe(document.body);
   window.addEventListener("load", sendHeight);
   sendHeight();
