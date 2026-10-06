@@ -71,3 +71,7 @@ footer { margin-top: 48px; padding-top: 16px; border-top: 1px solid var(--line);
 a { color: inherit; font-weight: 700; }
 [hidden] { display: none !important; }
 @media (max-width: 520px) { .card, .panel { padding: 20px; } .btn { width: 100%; } }
+
+/* Incorporato nella pagina WordPress */
+.embed header.intro { display: none; }
+.embed main { padding-top: 8px; }

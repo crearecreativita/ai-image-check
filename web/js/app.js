@@ -240,3 +240,13 @@ $("reset").addEventListener("click", reset);
 $("tab-meta").addEventListener("click", () => showTab("meta"));
 $("tab-visual").addEventListener("click", () => showTab("visual"));
 checkBudget();
+
+// Modalità incorporata (iframe su crearecreativita.it): nasconde il titolo, che è già nella pagina
+// ospitante, e comunica l'altezza al genitore per evitare la barra di scorrimento interna.
+if (window.parent !== window) {
+  if (new URLSearchParams(location.search).has("embed")) document.documentElement.classList.add("embed");
+  const sendHeight = () => window.parent.postMessage({ type: "aicheck-height", height: document.documentElement.scrollHeight }, "*");
+  new ResizeObserver(sendHeight).observe(document.body);
+  window.addEventListener("load", sendHeight);
+  sendHeight();
+}
