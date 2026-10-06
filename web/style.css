@@ -43,7 +43,7 @@ button { font: inherit; cursor: pointer; }
 @keyframes spin { to { transform: rotate(360deg); } }
 
 .result { margin-top: 28px; }
-.notice { padding: 14px 18px; margin-top: 20px; border: 1px solid var(--brand); border-radius: 10px; font-size: 15px; }
+.notice { padding: 14px 18px; margin-top: 20px; border: 1px solid var(--brand); border-radius: 10px; font-size: 12px; }
 .tabs { display: flex; gap: 8px; margin-bottom: 20px; }
 .tabs button { padding: 8px 18px; border: 1px solid var(--line); border-radius: 99px; background: transparent; color: var(--muted); font-size: 15px; font-weight: 700; }
 .tabs button[aria-selected="true"] { background: var(--ink); border-color: var(--ink); color: var(--bg); }
