@@ -4,7 +4,7 @@ compatibility_date = "2025-01-01"
 
 # Dominio del frontend (solo schema + host, senza path). Modificalo dopo aver pubblicato su GitHub Pages.
 [vars]
-ALLOWED_ORIGIN = "https://crearecreativita.github.io"
+ALLOWED_ORIGIN = "https://aicheck.crearecreativita.it,https://crearecreativita.github.io"
 
 # Crea il namespace con: npx wrangler kv namespace create CACHE
 # poi incolla qui l'id restituito.
