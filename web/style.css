@@ -74,4 +74,4 @@ a { color: inherit; font-weight: 700; }
 
 /* Incorporato nella pagina WordPress */
 .embed header.intro { display: none; }
-.embed main { max-width: none; padding: 8px 0 24px; }
+.embed main { max-width: 1280px; margin: 0 auto; padding: 0; }
