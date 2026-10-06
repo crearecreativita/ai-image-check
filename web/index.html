@@ -8,15 +8,16 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <header class="top"><div class="wrap"><a class="brand" href="https://www.crearecreativita.it/">Creare Creatività</a></div></header>
   <main>
-    <header>
-      <p class="kicker">Strumento</p>
-      <h1>AI Image Check</h1>
+    <header class="intro">
+      <h1>AI Image Check: scopri se un'immagine è generata con AI</h1>
       <p class="lead">Carica un'immagine e ottieni un indizio su una possibile origine AI. Non è un verdetto: è una stima con un margine di errore.</p>
     </header>
 
     <div id="banner" class="banner" hidden></div>
 
+    <div class="card">
     <section id="drop" class="drop" tabindex="0" role="button" aria-label="Carica un'immagine">
       <input id="file" type="file" accept="image/jpeg,image/png,image/webp" hidden>
       <div id="dropEmpty">
@@ -30,11 +31,12 @@
     </section>
 
     <div class="actions">
-      <button id="analyze" type="button" disabled>Analizza</button>
-      <button id="reset" type="button" class="ghost" hidden>Cambia immagine</button>
+      <button id="analyze" type="button" class="btn" disabled>Analizza</button>
+      <button id="reset" type="button" class="btn ghost" hidden>Cambia immagine</button>
     </div>
 
     <p class="privacy">Privacy: i metadati vengono letti nel tuo browser. Se serve l'analisi visiva, una versione ridotta dell'immagine viene inviata a un servizio esterno (Sightengine). Le immagini non vengono salvate: conserviamo solo l'impronta del file (hash) e il risultato.</p>
+    </div>
 
     <p id="status" class="status" role="status" aria-live="polite" hidden></p>
 
@@ -44,8 +46,8 @@
         <button role="tab" id="tab-meta" aria-selected="true" aria-controls="panel-meta">Metadati</button>
         <button role="tab" id="tab-visual" aria-selected="false" aria-controls="panel-visual">Analisi visiva</button>
       </div>
-      <div id="panel-meta" role="tabpanel" aria-labelledby="tab-meta"></div>
-      <div id="panel-visual" role="tabpanel" aria-labelledby="tab-visual" hidden></div>
+      <div id="panel-meta" class="panel" role="tabpanel" aria-labelledby="tab-meta"></div>
+      <div id="panel-visual" class="panel" role="tabpanel" aria-labelledby="tab-visual" hidden></div>
     </section>
 
     <footer>
