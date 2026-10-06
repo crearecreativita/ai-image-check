@@ -17,8 +17,8 @@ Schema identico a Inquadrami: duplica la pagina "TOOL - Genera QR Code" (ID 1008
 Sostituisci il contenuto del widget HTML con:
 
 ```html
-<iframe loading="lazy" id="aicheck-frame" src="https://aicheck.crearecreativita.it/?embed=1" style="width:100%;height:900px;border:0;display:block" scrolling="no" title="AI Image Check"></iframe>
-<noscript><iframe id="aicheck-frame-ns" src="https://aicheck.crearecreativita.it/?embed=1" style="width:100%;height:900px;border:0;display:block" scrolling="no" title="AI Image Check"></iframe></noscript>
+<iframe loading="lazy" id="aicheck-frame" src="https://aicheck.crearecreativita.it/?embed=1" style="width:100%;height:400px;border:0;display:block" scrolling="no" title="AI Image Check"></iframe>
+<noscript><iframe id="aicheck-frame-ns" src="https://aicheck.crearecreativita.it/?embed=1" style="width:100%;height:400px;border:0;display:block" scrolling="no" title="AI Image Check"></iframe></noscript>
 <script>
 window.addEventListener('message', function (e) {
   if (e.origin !== 'https://aicheck.crearecreativita.it') return;
