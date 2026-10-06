@@ -5,5 +5,7 @@ export const MAX_INPUT_BYTES = 25 * 1024 * 1024; // file originale accettato nel
 export const RESIZE_MAX_SIDE = 1024;
 export const JPEG_QUALITY = 0.85;
 
-// Ampiezza della fascia di incertezza attorno al punteggio del provider (+/-).
-export const UNCERTAINTY = 0.15;
+// Margine indicativo attorno al punteggio: stretto agli estremi (0 o 1), più largo al centro.
+// È un'euristica di presentazione, non un intervallo di confidenza statistico.
+export const UNCERTAINTY_MIN = 0.04;
+export const UNCERTAINTY_MAX = 0.2;

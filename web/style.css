@@ -11,11 +11,8 @@
 * { box-sizing: border-box; }
 html { -webkit-text-size-adjust: 100%; }
 body { margin: 0; background: var(--bg); color: var(--ink); font: 400 16px/1.55 var(--font); }
-.top { padding: 22px 0; border-bottom: 1px solid var(--line); }
-.wrap { max-width: 880px; margin: 0 auto; padding: 0 20px; }
-.brand { display: inline-block; padding: 3px 10px; border-radius: 6px; background: var(--brand); color: #fff; font-size: 14px; font-weight: 700; text-decoration: none; }
 main { max-width: 880px; margin: 0 auto; padding: 0 20px 56px; }
-header.intro { padding: 48px 0 28px; }
+header.intro { padding: 56px 0 28px; }
 h1 { margin: 0 0 16px; font-size: clamp(2rem, 7vw, 2.9rem); line-height: 1.12; letter-spacing: -.01em; font-weight: 700; }
 .lead { margin: 0; max-width: 62ch; font-size: 19px; line-height: 1.5; }
 
@@ -54,11 +51,13 @@ button { font: inherit; cursor: pointer; }
 
 .headline { margin: 0 0 6px; font-size: 22px; line-height: 1.25; font-weight: 700; }
 .sub { margin: 0 0 20px; color: var(--muted); font-size: 16px; }
-.meter { position: relative; height: 10px; margin: 28px 0 6px; border-radius: 99px; background: var(--line); }
-.meter .band { position: absolute; top: 0; bottom: 0; background: var(--brand); border-radius: 99px; opacity: .85; }
-.meter .tick { position: absolute; top: -5px; bottom: -5px; width: 3px; border-radius: 2px; background: var(--ink); }
-.scale { display: flex; justify-content: space-between; font-size: 13px; color: var(--muted); }
-.range { margin: 14px 0 0; font-size: 16px; }
+.gauge { width: 100%; max-width: 360px; margin: 24px auto 0; display: block; overflow: visible; }
+.gauge .needle { transform-origin: 100px 100px; transform: rotate(-90deg); transition: transform 1.4s cubic-bezier(.2,.8,.2,1); }
+.gauge .needle.go { transform: rotate(var(--rot)); }
+.gauge text { fill: var(--muted); font: 400 11px var(--font); }
+.score { margin: 4px 0 0; text-align: center; font-size: 44px; line-height: 1.1; font-weight: 700; }
+.range { margin: 6px 0 0; text-align: center; font-size: 15px; color: var(--muted); }
+@media (prefers-reduced-motion: reduce) { .gauge .needle { transition: none; } }
 ul.list { list-style: none; margin: 0; padding: 0; }
 ul.list li { padding: 12px 0 12px 20px; border-top: 1px solid var(--line); position: relative; font-size: 16px; }
 ul.list li::before { content: ""; position: absolute; left: 0; top: 21px; width: 8px; height: 8px; border-radius: 50%; background: var(--field-border); }

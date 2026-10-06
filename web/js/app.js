@@ -1,4 +1,4 @@
-import { API_URL, MAX_INPUT_BYTES, UNCERTAINTY } from "./config.js";
+import { API_URL, MAX_INPUT_BYTES, UNCERTAINTY_MIN, UNCERTAINTY_MAX } from "./config.js";
 import { sha256Hex, downscale } from "./image.js";
 import { analyzeMetadata } from "./metadata.js";
 
@@ -73,7 +73,43 @@ function scoreLabel(s) {
   return "Probabile che sia generata con AI";
 }
 
-const pct = (x) => Math.round(x * 100 / 5) * 5; // arrotondato a 5 punti: niente falsa precisione
+const NS = "http://www.w3.org/2000/svg";
+const svg = (tag, attrs) => {
+  const n = document.createElementNS(NS, tag);
+  for (const [k, v] of Object.entries(attrs || {})) n.setAttribute(k, v);
+  return n;
+};
+// punto sul semicerchio: s=0 a sinistra, s=1 a destra
+const pt = (s, r) => {
+  const a = Math.PI * (1 - s);
+  return [100 + r * Math.cos(a), 100 - r * Math.sin(a)];
+};
+const arc = (s0, s1, r) => {
+  const [x0, y0] = pt(s0, r), [x1, y1] = pt(s1, r);
+  return `M ${x0.toFixed(2)} ${y0.toFixed(2)} A ${r} ${r} 0 0 1 ${x1.toFixed(2)} ${y1.toFixed(2)}`;
+};
+
+function buildGauge(score, lo, hi) {
+  const g = svg("svg", { class: "gauge", viewBox: "0 0 200 125", role: "img", "aria-label": `Indicatore: probabilità AI stimata al ${Math.round(score * 100)}%` });
+  const defs = svg("defs");
+  const grad = svg("linearGradient", { id: "gg", gradientUnits: "userSpaceOnUse", x1: "20", x2: "180", y1: "0", y2: "0" });
+  grad.append(svg("stop", { offset: "0", "stop-color": "#7fc200" }), svg("stop", { offset: "0.5", "stop-color": "#f5b800" }), svg("stop", { offset: "1", "stop-color": "#f92273" }));
+  defs.append(grad);
+  g.append(defs,
+    svg("path", { d: arc(0, 1, 80), fill: "none", stroke: "#3d3b41", "stroke-width": 16, "stroke-linecap": "round" }),
+    svg("path", { d: arc(0, 1, 80), fill: "none", stroke: "url(#gg)", "stroke-width": 16, "stroke-linecap": "round", opacity: 0.35 }),
+    svg("path", { d: arc(lo, hi, 80), fill: "none", stroke: "url(#gg)", "stroke-width": 16, "stroke-linecap": "butt" })
+  );
+  const needle = svg("g", { class: "needle" });
+  needle.style.setProperty("--rot", `${score * 180 - 90}deg`);
+  needle.append(svg("line", { x1: 100, y1: 100, x2: 100, y2: 30, stroke: "#fff", "stroke-width": 3, "stroke-linecap": "round" }));
+  g.append(needle, svg("circle", { cx: 100, cy: 100, r: 7, fill: "#fff" }));
+  const l = svg("text", { x: 20, y: 120, "text-anchor": "middle" }); l.textContent = "Reale";
+  const r = svg("text", { x: 180, y: 120, "text-anchor": "middle" }); r.textContent = "AI";
+  g.append(l, r);
+  requestAnimationFrame(() => requestAnimationFrame(() => needle.classList.add("go")));
+  return g;
+}
 
 function renderMeta(md) {
   const p = $("panel-meta");
@@ -101,21 +137,15 @@ function renderVisual(state) {
     return;
   }
   const r = state.data;
-  const lo = Math.max(0, r.aiScore - UNCERTAINTY), hi = Math.min(1, r.aiScore + UNCERTAINTY);
+  const m = UNCERTAINTY_MIN + (UNCERTAINTY_MAX - UNCERTAINTY_MIN) * 4 * r.aiScore * (1 - r.aiScore);
+  const lo = Math.max(0, r.aiScore - m), hi = Math.min(1, r.aiScore + m);
   p.append(
     el("h2", "headline", scoreLabel(r.aiScore)),
-    el("p", "sub", "Stima basata sui pixel dell'immagine, indipendente dai metadati.")
+    el("p", "sub", "Stima basata sui pixel dell'immagine, indipendente dai metadati."),
+    buildGauge(r.aiScore, lo, hi),
+    el("p", "score", `${Math.round(r.aiScore * 100)}%`),
+    el("p", "range", `Probabilità AI stimata. Margine indicativo: ±${Math.round(m * 100)} punti.`)
   );
-  const meter = el("div", "meter");
-  const band = el("div", "band");
-  band.style.left = lo * 100 + "%";
-  band.style.width = (hi - lo) * 100 + "%";
-  const tick = el("div", "tick");
-  tick.style.left = `calc(${r.aiScore * 100}% - 1px)`;
-  meter.append(band, tick);
-  const scale = el("div", "scale");
-  scale.append(el("span", null, "Reale"), el("span", null, "AI"));
-  p.append(meter, scale, el("p", "range", `Probabilità AI stimata tra il ${pct(lo)}% e il ${pct(hi)}%.`));
 
   const gens = r.generators
     ? Object.entries(r.generators).filter(([, v]) => v >= 0.2).sort((a, b) => b[1] - a[1]).slice(0, 3)
@@ -125,7 +155,7 @@ function renderVisual(state) {
     g.append(el("h3", null, "Generatore più simile"));
     for (const [name, v] of gens) {
       const row = el("div");
-      row.append(el("span", null, name.replace(/_/g, " ")), el("span", null, `circa ${pct(v)}%`));
+      row.append(el("span", null, name.replace(/_/g, " ")), el("span", null, `circa ${Math.round(v * 100)}%`));
       g.append(row);
     }
     p.append(g);
